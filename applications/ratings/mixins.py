@@ -1,0 +1,35 @@
+from django.utils.datastructures import MultiValueDictKeyError
+from rest_framework import status
+from rest_framework.decorators import action
+from rest_framework.response import Response
+
+from ratings import services
+from ratings.services import get_reviewers
+
+
+class RatingMixin:
+    @action(methods=['POST'], detail=True)
+    def give_rating(self, request, pk=None):
+        try:
+            obj = self.get_object()
+            user = request.user
+            rating = request.data['rating']
+            status_ = services.give_rating(obj=obj, user=user, rating=rating)
+            return Response({'status': status_, 'rating': rating, 'user': user.email}, status=status.HTTP_200_OK)
+        except MultiValueDictKeyError:
+            return Response('поле rating обьязательно')
+
+    @action(methods=['POST'], detail=True)
+    def del_rating(self, request, pk=None):
+        user = request.user
+        obj = self.get_object()
+        services.del_rating(user=user, obj=obj)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    @action(methods=['GET'], detail=True)
+    def reviewers(self, request, pk=None):
+        obj = self.get_object()
+        users_data = get_reviewers(obj=obj)
+        return Response(users_data, status=status.HTTP_200_OK)
+
+
