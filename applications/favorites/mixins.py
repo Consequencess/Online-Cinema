@@ -2,7 +2,7 @@ from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from favorites import services
+from applications.favorites import services
 
 
 class FavoriteMixin:
@@ -21,6 +21,6 @@ class FavoriteMixin:
         )
 
     @action(methods=['GET'], detail=True)
-    def get_favorites(self, request):
+    def get_favorites(self, request, pk=None):
         movie_data = services.get_favorites(user=request.user)
         return Response(movie_data, status=status.HTTP_200_OK)

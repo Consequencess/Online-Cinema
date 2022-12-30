@@ -1,5 +1,6 @@
-from like import serializers
-from ratings.models import Rating
+from applications.like import serializers
+from applications.ratings.models import Rating
+from applications.ratings.serializers import ReviewerSerializer
 
 
 def give_rating(obj, user, rating):
