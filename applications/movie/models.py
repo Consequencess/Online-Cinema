@@ -20,3 +20,6 @@ class Movie(models.Model):
         return self.title
 
 
+class Image(models.Model):
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='images')
+    image = models.ImageField(upload_to='images/')
