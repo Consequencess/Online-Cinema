@@ -14,6 +14,8 @@ from pathlib import Path
 from decouple import config
 import dj_database_url
 
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -64,6 +66,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -180,16 +183,6 @@ SIMPLE_JWT = {
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
-EMAIL_HOST_USER = config('EMAIL_HOST_USER')
-
-BROKER_URL = 'redis://127.0.0.1:6379/0'
-BROKER_TRANSPORT = 'redis'
-
 
 SWAGGER_SETTINGS = {
     'SECURITY_DEFINITIONS': {
@@ -201,3 +194,69 @@ SWAGGER_SETTINGS = {
     }
 
 }
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+
+    'formatters': {
+        "main_format": {
+            "format": "{asctime} - {levelname} - {module} - {filename} - {message}",
+            "style": "{",
+        },
+
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'main_format',
+
+        },
+        'file': {
+            "class": "logging.FileHandler",
+            "formatter": "main_format",
+            'filename': 'information.log',
+        },
+
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'WARNING',
+    },
+    'loggers': {
+        'ACCOUNT': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'FAVORITE': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'ORDER': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'LIKE': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'COMMENT': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
+            'propagate': False,
+        }
+    },
+}
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+
+BROKER_URL = 'redis://127.0.0.1:6379/0'
+BROKER_TRANSPORT = 'redis'

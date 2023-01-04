@@ -7,6 +7,7 @@ from django.contrib.auth import get_user_model
 from applications.account.serializers import RegisterSerializer, ChangePasswordSerializer, \
     ForgotPasswordSerializer, ForgotPasswordCompleteSerializer
 
+
 User = get_user_model()
 
 
@@ -15,6 +16,7 @@ class RegisterApiView(APIView):
         serializer = RegisterSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
+
         return Response('Вы успешно зарегистрировались. '
                         'Вам отправлено письмо с активацией',
                         status=201

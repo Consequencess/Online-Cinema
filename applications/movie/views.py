@@ -13,6 +13,8 @@ from applications.like.mixins import LikeMixin
 from applications.movie.models import Movie
 from applications.movie.serializers import MovieSerializer
 from applications.ratings.mixins import RatingMixin
+import logging
+movie_logger = logging.getLogger('MOVIE')
 
 
 class MovieAPIView(RatingMixin, LikeMixin, FavoriteMixin, CommentMixin, ModelViewSet):

@@ -4,6 +4,9 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from applications.comments import services
+import logging
+
+comment_logger = logging.getLogger('COMMENT')
 
 
 class CommentMixin:
@@ -14,6 +17,7 @@ class CommentMixin:
             user = request.user
             obj = self.get_object()
             status_ = services.give_comment(user=user, obj=obj, comment=comment)
+            comment_logger.info('User give comment')
             return Response(
                 {
                     'status': status_,
@@ -29,6 +33,7 @@ class CommentMixin:
         user = request.user
         obj = self.get_object()
         services.del_comment(obj=obj, user=user)
+        comment_logger.info('User deleted comment')
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     @action(methods=['GET'], detail=True)
@@ -37,5 +42,6 @@ class CommentMixin:
 
     @action(methods=['GET'], detail=False)
     def comments(self, request):
+        comment_logger.info('User got a list of comments')
         return Response(services.get_comments(user=request.user), status=status.HTTP_200_OK)
 
