@@ -1,9 +1,8 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from applications.movie.views import MovieAPIView
-
+from . import views
 router = DefaultRouter()
-router.register('', MovieAPIView)
+router.register('', views.MovieAPIView, basename='movie')
 
 urlpatterns = router.urls

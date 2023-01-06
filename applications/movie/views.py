@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status
 from rest_framework.decorators import action
@@ -25,6 +27,10 @@ class MovieAPIView(RatingMixin, LikeMixin, FavoriteMixin, CommentMixin, ModelVie
     filterset_fields = ['category']
     search_fields = ['title']
     ordering_fields = ['id', 'price']
+
+    @method_decorator(cache_page(60*15))
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)

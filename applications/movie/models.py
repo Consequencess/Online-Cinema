@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.db import models
 
 
-from changelog.mixins import ChangeloggableMixin
+# from changelog.mixins import ChangeloggableMixin
 
 
 User = get_user_model()
@@ -20,7 +20,6 @@ class Movie(models.Model):
     category = models.ManyToManyField(Category, related_name='movie')
     user = models.ForeignKey(User, related_name='movies', on_delete=models.CASCADE)
     count = models.PositiveIntegerField(default=100)
-
 
     def __str__(self):
         return self.title
