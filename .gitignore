@@ -67,6 +67,9 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 cover/
+information.log/
+images/
+venv/
 
 # Translations
 *.mo
@@ -154,6 +157,8 @@ venv.bak/
 .mypy_cache/
 .dmypy.json
 dmypy.json
+
+
 
 # Pyre type checker
 .pyre/
